@@ -10,12 +10,19 @@ Cung cấp ngữ cảnh dự án và hướng dẫn viết mã mà AI nên tuân
    - Từ khóa SQL, tên bảng, cột, và các thành phần mã nguồn khác phải sử dụng tiếng Anh.
 
 2. **Quy tắc đặt tên**:
-   - Tên bảng: Sử dụng kiểu `PascalCase` với tiền tố rõ ràng (ví dụ: `TblUsers`, `TblPdModel`).
-   - Tên cột: Sử dụng kiểu `PascalCase` (ví dụ: `UserId`, `ModelScore`, `CreatedDate`).
-   - Tên stored procedure: Sử dụng tiền tố `sp_` (ví dụ: `sp_GetUserData`).
-   - Tên function: Sử dụng tiền tố `fn_` (ví dụ: `fn_GetCurrentDate`).
-   - Tên view: Sử dụng tiền tố `vw_` (ví dụ: `vw_UserSummary`, `vw_ModelResults`).
-   - Tên trigger: Sử dụng tiền tố `tr_` (ví dụ: `tr_AuditUserChanges`).
+   - Tên bảng: Sử dụng kiểu `UPPER_SNAKE_CASE` với tiền tố rõ ràng (ví dụ: `TBL_USERS`, `TBL_PD_MODEL`).
+   - Tên cột: Sử dụng kiểu `UPPER_SNAKE_CASE` (ví dụ: `USER_ID`, `MODEL_SCORE`, `CREATED_DATE`).
+   - Tên stored procedure: Sử dụng tiền tố `SP_` (ví dụ: `SP_GET_USER_DATA`).
+   - Tên function: Sử dụng tiền tố `FN_` (ví dụ: `FN_GET_CURRENT_DATE`).
+   - Tên view: Sử dụng tiền tố `VW_` (ví dụ: `VW_USER_SUMMARY`, `VW_MODEL_RESULTS`).
+   - Tên trigger: Sử dụng tiền tố `TR_` (ví dụ: `TR_AUDIT_USER_CHANGES`).
+
+   **Lý do chọn UPPER_SNAKE_CASE:**
+   - Truyền thống trong enterprise database systems (DB2, Oracle)
+   - Tách biệt rõ ràng với code variables (lowercase)
+   - Dễ nhận diện database objects trong mixed environment
+   - Consistent với SQL keywords (SELECT, FROM, WHERE)
+   - Phổ biến trong banking và financial systems
 
 3. **Quy tắc định dạng mã**:
    - Từ khóa SQL phải viết HOA (SELECT, FROM, WHERE, JOIN, etc.).
@@ -26,18 +33,18 @@ Cung cấp ngữ cảnh dự án và hướng dẫn viết mã mà AI nên tuân
 4. **Cấu trúc query**:
    ```sql
    SELECT 
-       t1.ColumnName,
-       t2.AnotherColumn,
+       T1.COLUMN_NAME,
+       T2.ANOTHER_COLUMN,
        CASE 
-           WHEN condition THEN value
-           ELSE other_value
-       END AS ComputedColumn
-   FROM TableName t1
-   INNER JOIN AnotherTable t2 
-       ON t1.Id = t2.ForeignId
-   WHERE t1.Status = 'Active'
-       AND t1.CreatedDate >= '2024-01-01'
-   ORDER BY t1.CreatedDate DESC;
+           WHEN CONDITION THEN VALUE
+           ELSE OTHER_VALUE
+       END AS COMPUTED_COLUMN
+   FROM TBL_TABLE_NAME T1
+   INNER JOIN TBL_ANOTHER_TABLE T2 
+       ON T1.ID = T2.FOREIGN_ID
+   WHERE T1.STATUS = 'ACTIVE'
+       AND T1.CREATED_DATE >= '2024-01-01'
+   ORDER BY T1.CREATED_DATE DESC;
    ```
 
 5. **Quy tắc bảo mật**:
@@ -61,8 +68,8 @@ Cung cấp ngữ cảnh dự án và hướng dẫn viết mã mà AI nên tuân
      Tác giả: [Tên người tạo]
      Ngày tạo: [Ngày tạo]
      Tham số đầu vào:
-         @CustomerId INT - ID của khách hàng
-         @ModelVersion VARCHAR(10) - Phiên bản model
+         @CUSTOMER_ID INT - ID của khách hàng
+         @MODEL_VERSION VARCHAR(10) - Phiên bản model
      Kết quả trả về:
          Bảng chứa điểm PD và các thông tin liên quan
      */
@@ -78,6 +85,25 @@ Cung cấp ngữ cảnh dự án và hướng dẫn viết mã mà AI nên tuân
    - Sử dụng migration scripts cho database changes.
    - Tag version trong database objects khi cần.
 
-10. **Quy trình commit**:
+10. **Best Practices cho UPPER_SNAKE_CASE**:
+    - Sử dụng underscores để tách các từ có ý nghĩa
+    - Tránh sử dụng abbreviations không rõ ràng
+    - Giữ tên table/column ngắn gọn nhưng mô tả đầy đủ
+    - Sử dụng consistent prefixes cho các loại objects
+    - Examples:
+      ```sql
+      -- Good naming
+      TBL_CUSTOMER_PROFILES
+      TBL_LOAN_APPLICATIONS  
+      VW_MONTHLY_REPORT_SUMMARY
+      SP_CALCULATE_PD_SCORE
+      
+      -- Avoid
+      TBL_CUSTPROF (unclear abbreviation)
+      CUSTOMER_DATA (missing prefix)
+      tbl_customers (inconsistent case)
+      ```
+
+11. **Quy trình commit**:
     - Tin nhắn commit phải được viết bằng tiếng Việt.
     - Mô tả rõ ràng thay đổi đã thực hiện về database schema hoặc logic.
